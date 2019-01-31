@@ -33,7 +33,7 @@
 
 using namespace stk;
 
-using Point_type = stk::ds::Point2<double>;
+using Point_type = geometry::Point2<double>;
 using Point_container = Point_type::vector;
 
 int main(int __attribute__((unused)) argc, char** argv)

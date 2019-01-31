@@ -20,7 +20,7 @@
 
 #include "stk/geometry/point.h"
 
-namespace stk::ds::edge {
+namespace stk::geometry::edge {
 template <typename Point>
 typename edge<Point>::Point_placement
 edge<Point>::placement(const Point& r) const
@@ -57,4 +57,4 @@ std::ostream& operator<<(std::ostream& out, const edge<Point>& edge)
     return out;
 }
 
-} // namespace stk::ds::edge
+} // namespace stk::geometry::edge

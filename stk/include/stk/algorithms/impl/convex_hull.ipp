@@ -27,10 +27,10 @@ template <typename PointContainer>
 typename std::decay_t<PointContainer> convex_hull_slow(PointContainer&& points)
 {
     using Container = typename std::decay<PointContainer>::type;
-    using Edge_type = ds::edge::edge<typename Container::value_type>;
+    using Edge_type = geometry::edge::edge<typename Container::value_type>;
     std::vector<Edge_type> edges;
     auto all_pairs =
-        ds::edge::make_from_points(std::forward<Container>(points));
+        geometry::edge::make_from_points(std::forward<Container>(points));
     for(auto& pq : all_pairs) {
         for(const auto& r : points) {
             if(r == pq.p || r == pq.q)

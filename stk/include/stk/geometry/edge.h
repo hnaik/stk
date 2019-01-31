@@ -25,7 +25,6 @@
 #include "stk/utils.h"
 
 namespace stk::geometry::edge {
-template <typename Point>
 /*!
  *
  * \param a
@@ -33,6 +32,7 @@ template <typename Point>
  * \param q
  * \return
  */
+template <typename Point>
 double det(const Point& a, const Point& b, const Point& q)
 {
     // https://stackoverflow.com/questions/1560492/how-to-tell-whether-a-point-is-to-the-right-or-left-side-of-a-line
