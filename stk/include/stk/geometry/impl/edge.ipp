@@ -20,7 +20,7 @@
 
 #include "stk/geometry/point.h"
 
-namespace stk::geometry::edge {
+namespace stk::geometry {
 template <typename Point>
 typename edge<Point>::Point_placement
 edge<Point>::placement(const Point& r) const
@@ -36,7 +36,7 @@ edge<Point>::placement(const Point& r) const
 
 template <typename PointContainer>
 std::vector<edge<typename PointContainer::value_type>>
-make_from_points(PointContainer&& points)
+edges_from_points(PointContainer&& points)
 {
     std::vector<edge<typename PointContainer::value_type>> edges;
     for(const auto& p : points) {
@@ -57,4 +57,4 @@ std::ostream& operator<<(std::ostream& out, const edge<Point>& edge)
     return out;
 }
 
-} // namespace stk::geometry::edge
+} // namespace stk::geometry

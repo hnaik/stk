@@ -24,7 +24,7 @@
 
 #include "stk/utils.h"
 
-namespace stk::geometry::edge {
+namespace stk::geometry {
 /*!
  *
  * \param a
@@ -85,7 +85,7 @@ struct edge {
  */
 template <typename PointContainer>
 std::vector<edge<typename PointContainer::value_type>>
-make_from_points(PointContainer&& points);
+edges_from_points(PointContainer&& points);
 
 /*!
  *
@@ -93,7 +93,7 @@ make_from_points(PointContainer&& points);
 template <typename Point>
 std::ostream& operator<<(std::ostream& out, const edge<Point>& edge);
 
-} // namespace stk::geometry::edge
+} // namespace stk::geometry
 
 #include "stk/geometry/impl/edge.ipp"
 
