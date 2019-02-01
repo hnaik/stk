@@ -15,7 +15,7 @@ struct solution {
         std::fill(begin(picked), end(picked), 0);
     }
 
-    value_type obj;
+    value_type obj{};
     bool opt = false;
     std::vector<short> picked;
 };

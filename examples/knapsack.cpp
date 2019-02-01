@@ -1,39 +1,88 @@
 #include <fstream>
 #include <iostream>
 
+#include <unordered_map>
+#include <variant>
+
+#include <getopt.h>
+#include <unistd.h>
+
 #include "stk/opt/knapsack/input.h"
 #include "stk/opt/knapsack/solver.h"
 
+struct program_options {
+    bool verbose = false;
+    std::string solver_name;
+    std::string input_path;
+};
+
+program_options parse_args(int argc, char** argv);
+
 int main(int argc, char** argv)
 {
-    bool allow_multiple{false};
-    std::string solver_type{"zero_one"};
-    if(argc < 2) {
-        std::cerr << "need an input file\n";
-        return EXIT_FAILURE;
-    } else if(argc == 3) {
-        allow_multiple = true;
-        solver_type = "bkp";
-    }
+    const auto options = parse_args(argc, argv);
 
     namespace ks = stk::opt::knapsack;
 
-    std::ifstream ifs{argv[1]};
+    std::cout << options.input_path << "\n";
+
+    std::ifstream ifs{options.input_path};
 
     using value_type = int;
 
-    ks::solver_factory<value_type> factory{solver_type, "txt"};
+    ks::solver_factory<value_type> factory{options.solver_name, "txt"};
     std::shared_ptr<ks::solver<value_type>> solver = factory.solver_handle();
     std::shared_ptr<ks::input<value_type>> input = factory.input_handle();
 
-    input->allow_multiple(allow_multiple);
+    if(argc == 4) {
+        std::cout << "allowing multiple\n";
+        input->allow_multiple(true);
+    }
     input->read(ifs);
 
-    std::cout << *input << "\n";
+    if(options.verbose) {
+        std::cout << *input;
+    }
 
     const auto solution = solver->solve(*input);
 
     std::cout << solution << "\n";
 
     return EXIT_SUCCESS;
+}
+
+program_options parse_args(int argc, char** argv)
+{
+    program_options options;
+
+    static const char* opt_string = "siv";
+    static const struct option long_opts[] = {
+        {"solver-name", required_argument, nullptr, 's'},
+        {"input-path", required_argument, nullptr, 'i'},
+        {"verbose", no_argument, nullptr, 'v'}
+        //
+    };
+
+    int idx;
+    auto opt = getopt_long(argc, argv, opt_string, long_opts, &idx);
+
+    while(opt != -1) {
+        switch(opt) {
+        case 's':
+            options.solver_name = optarg;
+            break;
+
+        case 'v':
+            options.verbose = true;
+            break;
+
+        case 'i':
+            options.input_path = optarg;
+            break;
+        }
+
+        opt = getopt_long(argc, argv, opt_string, long_opts, &idx);
+    }
+
+    return options;
 }

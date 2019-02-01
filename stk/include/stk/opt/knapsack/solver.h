@@ -103,6 +103,13 @@ public:
 };
 
 template <typename T>
+constexpr size_t floor_operation(T c, T w_bar, T w)
+{
+    auto frac = static_cast<double>(c - w_bar) / static_cast<double>(w);
+    return static_cast<size_t>(std::floor(frac));
+}
+
+template <typename T>
 solution<T> bkp<T>::solve(const input<T>& input)
 {
     using value_type = typename input<T>::value_type;
@@ -114,10 +121,10 @@ solution<T> bkp<T>::solve(const input<T>& input)
 
     value_type w_ = 0;
     for(const auto& item : items) {
-        if((w_ + item.weight) < input.capacity()) {
-            value_type x = std::min(
-                item.copies, static_cast<decltype(item.copies)>(std::floor(
-                                 (input.capacity() - w_) / item.weight)));
+        if((w_ + item.weight) <= input.capacity()) {
+            value_type x =
+                std::min(item.copies,
+                         floor_operation(input.capacity(), w_, item.weight));
             w_ += item.weight * x;
             soln.obj += item.value * x;
 
