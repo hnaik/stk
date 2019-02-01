@@ -47,13 +47,29 @@ public:
     }
 
     inline vector(const vector& o)
-        : v_{o.v_}
+        : transpose_{o.transpose_}
+        , v_{o.v_}
     {
     }
 
     inline vector(vector&& o)
-        : v_{std::move(o.v_)}
+        : transpose_{o.transpose_}
+        , v_{std::move(o.v_)}
     {
+    }
+
+    vector& operator=(const vector& o)
+    {
+        v_ = o.v_;
+        transpose_ = o.transpose_;
+        return *this;
+    }
+
+    vector& operator=(vector&& o)
+    {
+        v_ = std::move(o.v_);
+        transpose_ = o.transpose_;
+        return *this;
     }
 
     inline value_type norm1() const { return v_.sum(); }
@@ -65,12 +81,6 @@ public:
     inline value_type dot(const vector& o) const { return (v_ * o.v_).sum(); }
 
     inline vector abs() const { return std::abs(v_); }
-
-    inline vector operator=(const vector& u)
-    {
-        v_ = u.v_;
-        return *this;
-    }
 
     inline value_type sum() const { return v_.sum(); }
 
