@@ -8,7 +8,8 @@
 #include <unistd.h>
 
 #include "stk/opt/knapsack/input.h"
-#include "stk/opt/knapsack/solver.h"
+#include "stk/opt/knapsack/model.h"
+#include "stk/opt/knapsack/model_factory.h"
 
 struct program_options {
     bool verbose = false;
@@ -32,7 +33,7 @@ int main(int argc, char** argv)
 
     using value_type = int;
 
-    ks::solver_factory<value_type> factory{options.solver_name, "txt"};
+    ks::model_factory<value_type> factory{options.solver_name, "txt"};
     std::shared_ptr<ks::model<value_type>> model = factory.solver_handle();
     std::shared_ptr<ks::input<value_type>> input = factory.input_handle();
 

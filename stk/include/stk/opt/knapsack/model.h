@@ -135,43 +135,6 @@ solution<T> bkp<T>::solve(const input<T>& input)
     return soln;
 }
 
-template <typename T>
-class solver_factory {
-public:
-    using value_type = T;
-
-    inline solver_factory(std::string_view solver_id, std::string_view input_id)
-        : solver_id_{solver_id}
-        , input_id_{input_id}
-    {
-    }
-
-    std::shared_ptr<input<value_type>> input_handle() const;
-
-    std::shared_ptr<model<value_type>> solver_handle() const;
-
-private:
-    std::string_view solver_id_;
-    std::string_view input_id_;
-};
-
-template <typename T>
-std::shared_ptr<input<T>> solver_factory<T>::input_handle() const
-{
-    return create_input<T>(input_id_);
-}
-
-template <typename T>
-std::shared_ptr<model<T>> solver_factory<T>::solver_handle() const
-{
-    if(solver_id_ == "zero_one") {
-        return std::make_shared<zero_one<T>>();
-    } else if(solver_id_ == "bkp") {
-        return std::make_shared<bkp<T>>();
-    }
-
-    throw std::runtime_error{"unsupported solver type"};
-}
 
 } // namespace stk::opt::knapsack
 #endif // STK_OPT_KNAPSACK_SOLVER_H
