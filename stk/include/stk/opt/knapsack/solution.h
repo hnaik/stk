@@ -15,7 +15,7 @@ struct solution {
         std::fill(begin(picked), end(picked), 0);
     }
 
-    value_type obj{};
+    value_type z{};
     bool opt = false;
     std::vector<short> picked;
 };
@@ -23,7 +23,7 @@ struct solution {
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const solution<T>& solution)
 {
-    os << solution.obj << " " << std::noboolalpha << solution.opt << "\n";
+    os << solution.z << " " << std::noboolalpha << solution.opt << "\n";
     for(const auto& item : solution.picked) {
         os << item << " ";
     }

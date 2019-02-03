@@ -24,14 +24,16 @@ int main(int argc, char** argv)
 
     namespace ks = stk::opt::knapsack;
 
-    std::cout << options.input_path << "\n";
+    if(options.verbose) {
+        std::cout << options.input_path << "\n";
+    }
 
     std::ifstream ifs{options.input_path};
 
     using value_type = int;
 
     ks::solver_factory<value_type> factory{options.solver_name, "txt"};
-    std::shared_ptr<ks::solver<value_type>> solver = factory.solver_handle();
+    std::shared_ptr<ks::model<value_type>> model = factory.solver_handle();
     std::shared_ptr<ks::input<value_type>> input = factory.input_handle();
 
     if(argc == 4) {
@@ -44,7 +46,7 @@ int main(int argc, char** argv)
         std::cout << *input;
     }
 
-    const auto solution = solver->solve(*input);
+    const auto solution = model->solve(*input);
 
     std::cout << solution << "\n";
 

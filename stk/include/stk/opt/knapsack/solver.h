@@ -58,15 +58,15 @@ struct efficiency_lesser {
 };
 
 template <typename T>
-class solver {
+class model {
 public:
-    virtual ~solver() = default;
+    virtual ~model() = default;
 
     virtual solution<T> solve(const input<T>& input) = 0;
 };
 
 template <typename T>
-class zero_one : public solver<T> {
+class zero_one : public model<T> {
 public:
     solution<T> solve(const input<T>& input) override;
 };
@@ -84,7 +84,7 @@ solution<T> zero_one<T>::solve(const input<T>& input)
     for(const auto& item : items) {
         if(remaining_capacity >= item.weight) {
             remaining_capacity -= item.weight;
-            solution.obj += item.value;
+            solution.z += item.value;
 
             solution.picked[item.index] = 1;
         }
@@ -97,7 +97,7 @@ solution<T> zero_one<T>::solve(const input<T>& input)
  * Bounded Knapsack
  */
 template <typename T>
-class bkp : public solver<T> {
+class bkp : public model<T> {
 public:
     solution<T> solve(const input<T>& input) override;
 };
@@ -126,7 +126,7 @@ solution<T> bkp<T>::solve(const input<T>& input)
                 std::min(item.copies,
                          floor_operation(input.capacity(), w_, item.weight));
             w_ += item.weight * x;
-            soln.obj += item.value * x;
+            soln.z += item.value * x;
 
             soln.picked[item.index] = x;
         }
@@ -148,7 +148,7 @@ public:
 
     std::shared_ptr<input<value_type>> input_handle() const;
 
-    std::shared_ptr<solver<value_type>> solver_handle() const;
+    std::shared_ptr<model<value_type>> solver_handle() const;
 
 private:
     std::string_view solver_id_;
@@ -162,7 +162,7 @@ std::shared_ptr<input<T>> solver_factory<T>::input_handle() const
 }
 
 template <typename T>
-std::shared_ptr<solver<T>> solver_factory<T>::solver_handle() const
+std::shared_ptr<model<T>> solver_factory<T>::solver_handle() const
 {
     if(solver_id_ == "zero_one") {
         return std::make_shared<zero_one<T>>();
@@ -172,5 +172,6 @@ std::shared_ptr<solver<T>> solver_factory<T>::solver_handle() const
 
     throw std::runtime_error{"unsupported solver type"};
 }
+
 } // namespace stk::opt::knapsack
 #endif // STK_OPT_KNAPSACK_SOLVER_H
