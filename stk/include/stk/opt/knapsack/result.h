@@ -6,25 +6,25 @@
 
 namespace stk::opt::knapsack {
 template <typename T>
-struct solution {
+struct result {
     using value_type = T;
 
-    solution(size_t item_count)
-        : picked(item_count)
+    result(size_t item_count)
+        : solution(item_count)
     {
-        std::fill(begin(picked), end(picked), 0);
+        std::fill(begin(solution), end(solution), 0);
     }
 
     value_type z{};
     bool opt = false;
-    std::vector<short> picked;
+    std::vector<short> solution;
 };
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const solution<T>& solution)
+std::ostream& operator<<(std::ostream& os, const result<T>& result)
 {
-    os << solution.z << " " << std::noboolalpha << solution.opt << "\n";
-    for(const auto& item : solution.picked) {
+    os << result.z << " " << std::noboolalpha << result.opt << "\n";
+    for(const auto& item : result.solution) {
         os << item << " ";
     }
 

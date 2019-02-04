@@ -32,7 +32,7 @@
 #include <iostream>
 
 #include "stk/opt/knapsack/input.h"
-#include "stk/opt/knapsack/solution.h"
+#include "stk/opt/knapsack/result.h"
 
 namespace stk::opt::knapsack {
 template <typename T>
@@ -62,35 +62,35 @@ class model {
 public:
     virtual ~model() = default;
 
-    virtual solution<T> solve(const input<T>& input) = 0;
+    virtual result<T> solve(const input<T>& input) = 0;
 };
 
 template <typename T>
 class zero_one : public model<T> {
 public:
-    solution<T> solve(const input<T>& input) override;
+    result<T> solve(const input<T>& input) override;
 };
 
 template <typename T>
-solution<T> zero_one<T>::solve(const input<T>& input)
+result<T> zero_one<T>::solve(const input<T>& input)
 {
     using value_type = typename input<T>::value_type;
     typename input<T>::container_type items{input.items()};
 
     std::sort(begin(items), end(items), efficiency_greater<T>());
 
-    solution<T> solution{input.item_count()};
+    result<T> result{input.item_count()};
     value_type remaining_capacity = input.capacity();
     for(const auto& item : items) {
         if(remaining_capacity >= item.weight) {
             remaining_capacity -= item.weight;
-            solution.z += item.value;
+            result.z += item.value;
 
-            solution.picked[item.index] = 1;
+            result.solution[item.index] = 1;
         }
     }
 
-    return solution;
+    return result;
 }
 
 /*!
@@ -99,7 +99,7 @@ solution<T> zero_one<T>::solve(const input<T>& input)
 template <typename T>
 class bkp : public model<T> {
 public:
-    solution<T> solve(const input<T>& input) override;
+    result<T> solve(const input<T>& input) override;
 };
 
 template <typename T>
@@ -110,14 +110,14 @@ constexpr size_t floor_operation(T c, T w_bar, T w)
 }
 
 template <typename T>
-solution<T> bkp<T>::solve(const input<T>& input)
+result<T> bkp<T>::solve(const input<T>& input)
 {
     using value_type = typename input<T>::value_type;
     typename input<T>::container_type items{input.items()};
 
     std::sort(begin(items), end(items), efficiency_greater<T>());
 
-    solution<T> soln{input.item_count()};
+    result<T> res{input.item_count()};
 
     value_type w_ = 0;
     for(const auto& item : items) {
@@ -126,15 +126,27 @@ solution<T> bkp<T>::solve(const input<T>& input)
                 std::min(item.copies,
                          floor_operation(input.capacity(), w_, item.weight));
             w_ += item.weight * x;
-            soln.z += item.value * x;
+            res.z += item.value * x;
 
-            soln.picked[item.index] = x;
+            res.solution[item.index] = x;
         }
     }
 
-    return soln;
+    return res;
 }
 
+template <typename T>
+class branch_and_bound : public model<T> {
+    result<T> solve(const input<T>& input) override;
+};
+
+template <typename T>
+result<T> branch_and_bound<T>::solve(const input<T>& input)
+{
+    result<T> soln{input.item_count()};
+
+    return soln;
+}
 
 } // namespace stk::opt::knapsack
 #endif // STK_OPT_KNAPSACK_SOLVER_H
