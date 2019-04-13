@@ -36,7 +36,7 @@ using namespace stk;
 using Point_type = geometry::Point2<double>;
 using Point_container = Point_type::vector;
 
-int main(int __attribute__((unused)) argc, char** argv)
+int main([[maybe_unused]] int argc, char** argv)
 {
     io::csv<> csv;
     csv.read(argv[1]);

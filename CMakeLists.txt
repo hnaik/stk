@@ -5,6 +5,8 @@ project(stk)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "-Wall -Werror -Wextra -Wsign-conversion")
+if(!MSVC)
+endif()
 
 add_subdirectory(stk)
 
