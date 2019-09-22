@@ -19,10 +19,16 @@
 #ifndef STK_GRAPH_GRAPH_H
 #define STK_GRAPH_GRAPH_H
 
+#include <string>
+
 #include "stk/graph/basic_graph.h"
+#include "stk/graph/edge.h"
+#include "stk/graph/vertex.h"
 
 namespace stk::graph {
-using graph = basic_graph;
+using vertex_type = vertex<std::string>;
+using edge_type = edge<vertex_type>;
+using graph = basic_graph<vertex_type, edge_type>;
 } // namespace stk::graph
 
 #endif // STK_GRAPH_GRAPH_H

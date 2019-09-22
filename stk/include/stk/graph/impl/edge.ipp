@@ -16,32 +16,37 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef STK_GRAPH_EDGE_H
-#define STK_GRAPH_EDGE_H
-
-#include <unordered_set>
-
 namespace stk::graph {
 template <typename Vertex>
-struct edge_hasher;
+bool operator==(const edge<Vertex>& e1, const edge<Vertex>& e2)
+{
+    return (e1.u == e2.u && e1.v == e2.v) || (e1.u == e2.v && e1.v == e2.u);
+}
 
 template <typename Vertex>
-struct edge {
-    using vertex_type = Vertex;
-    using set = std::unordered_set<edge, edge_hasher<vertex_type>>;
-
-    vertex_type u;
-    vertex_type v;
-    size_t w;
-};
+std::ostream& operator<<(std::ostream& os, const edge<Vertex>& e)
+{
+    os << "(" << e.u << "," << e.v << ")";
+    return os;
+}
 
 template <typename Vertex>
-struct edge_hasher {
-    using vertex_type = Vertex;
-    size_t operator()(const edge<vertex_type>& e) const;
-};
+size_t edge_hasher<Vertex>::operator()(const edge<vertex_type>& e) const
+{
+    return e.u.hash() ^ e.v.hash();
+}
+
+template <typename V, typename E>
+std::ostream& operator<<(std::ostream& os, const basic_graph<V, E>& g)
+{
+    for(const auto& v : g.v_) {
+        os << "[" << v << "] ";
+        for(const auto& n : v.neighbors) {
+            os << n;
+        }
+        os << "\n";
+    }
+    return os;
+}
 
 } // namespace stk::graph
-
-#include "stk/graph/impl/edge.ipp"
-#endif // STK_GRAPH_EDGE_H

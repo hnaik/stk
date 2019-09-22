@@ -22,17 +22,15 @@
 #include <string>
 #include <unordered_set>
 
-#include "stk/graph/edge.h"
-#include "stk/graph/vertex.h"
-
 namespace stk::graph {
 
+template <typename Vertex, typename Edge>
 class basic_graph {
 public:
-    using vertex_type = vertex;
-    using vertex_set = vertex_type::set;
-    using edge_type = edge;
-    using edge_set = edge_type::set;
+    using vertex_type = Vertex;
+    using vertex_set = typename vertex_type::set;
+    using edge_type = Edge;
+    using edge_set = typename edge_type::set;
 
     void add_vertex(const vertex_type& v);
     void add_edge(const edge_type& e);
@@ -57,8 +55,8 @@ public:
         return has_edge(edge_type{v1, v2});
     }
 
-    bool has_edge(const vertex_type::id_type& v1_id,
-                  const vertex_type::id_type& v2_id) const;
+    bool has_edge(const typename vertex_type::id_type& v1_id,
+                  const typename vertex_type::id_type& v2_id) const;
 
     inline const edge_set& edges() const { return e_; }
     inline const vertex_set& vertices() const { return v_; }
@@ -66,42 +64,17 @@ public:
     inline size_t vertex_count() const { return v_.size(); }
     inline size_t edge_count() const { return e_.size(); }
 
-    friend std::ostream& operator<<(std::ostream& os, const basic_graph& g);
+    template <typename V, typename E>
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const basic_graph<V, E>& g);
 
 private:
     vertex_set v_;
     edge_set e_;
 };
 
-std::ostream& operator<<(std::ostream& os, const basic_graph& g)
-{
-    for(const auto& v : g.v_) {
-        os << "[" << v << "] ";
-        for(const auto& n : v.neighbors) {
-            os << n;
-        }
-        os << "\n";
-    }
-    return os;
-}
-
-void basic_graph::add_vertex(const vertex_type& v) { v_.insert(v); }
-
-void basic_graph::add_edge(const edge_type& e)
-{
-    e_.insert(e);
-
-    auto ins_u = v_.insert(e.u);
-    const_cast<vertex&>(*ins_u.first).neighbors.insert(e.v.id);
-
-    auto ins_v = v_.insert(e.u);
-    const_cast<vertex&>(*ins_v.first).neighbors.insert(e.u.id);
-}
-
-void basic_graph::add_edge(const vertex_type& v1, const vertex_type& v2)
-{
-    add_edge(edge_type{v1, v2});
-}
 } // namespace stk::graph
+
+#include "stk/graph/impl/basic_graph.ipp"
 
 #endif // STK_GRAPH_BASIC_GRAPH_H

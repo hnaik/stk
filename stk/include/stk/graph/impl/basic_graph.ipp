@@ -16,32 +16,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef STK_GRAPH_EDGE_H
-#define STK_GRAPH_EDGE_H
-
-#include <unordered_set>
-
 namespace stk::graph {
-template <typename Vertex>
-struct edge_hasher;
+template <typename Vertex, typename Edge>
+void basic_graph<Vertex, Edge>::add_vertex(const vertex_type& v)
+{
+    v_.insert(v);
+}
 
-template <typename Vertex>
-struct edge {
-    using vertex_type = Vertex;
-    using set = std::unordered_set<edge, edge_hasher<vertex_type>>;
+template <typename Vertex, typename Edge>
+void basic_graph<Vertex, Edge>::add_edge(const edge_type& e)
+{
+    e_.insert(e);
 
-    vertex_type u;
-    vertex_type v;
-    size_t w;
-};
+    auto ins_u = v_.insert(e.u);
+    const_cast<vertex_type&>(*ins_u.first).neighbors.insert(e.v.id);
 
-template <typename Vertex>
-struct edge_hasher {
-    using vertex_type = Vertex;
-    size_t operator()(const edge<vertex_type>& e) const;
-};
+    auto ins_v = v_.insert(e.u);
+    const_cast<vertex_type&>(*ins_v.first).neighbors.insert(e.u.id);
+}
+
+template <typename Vertex, typename Edge>
+void basic_graph<Vertex, Edge>::add_edge(const vertex_type& v1,
+                                         const vertex_type& v2)
+{
+    add_edge(edge_type{v1, v2});
+}
 
 } // namespace stk::graph
-
-#include "stk/graph/impl/edge.ipp"
-#endif // STK_GRAPH_EDGE_H

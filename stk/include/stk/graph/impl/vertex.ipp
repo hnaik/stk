@@ -16,32 +16,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef STK_GRAPH_EDGE_H
-#define STK_GRAPH_EDGE_H
-
-#include <unordered_set>
-
 namespace stk::graph {
-template <typename Vertex>
-struct edge_hasher;
+template <typename Id>
+size_t vertex<Id>::hash() const
+{
+    return vertex_hasher<Id>{}(id);
+}
 
-template <typename Vertex>
-struct edge {
-    using vertex_type = Vertex;
-    using set = std::unordered_set<edge, edge_hasher<vertex_type>>;
+template <typename Id>
+bool operator==(const vertex<Id>& v1, const vertex<Id>& v2)
+{
+    return v1.id == v2.id;
+}
 
-    vertex_type u;
-    vertex_type v;
-    size_t w;
-};
+template <typename Id>
+std::ostream& operator<<(std::ostream& os, const vertex<Id>& v)
+{
+    os << v.id;
+    return os;
+}
 
-template <typename Vertex>
-struct edge_hasher {
-    using vertex_type = Vertex;
-    size_t operator()(const edge<vertex_type>& e) const;
-};
+template <typename Id>
+size_t vertex_hasher<Id>::operator()(const vertex<Id>& v) const
+{
+    return std::hash<std::string>{}(v.id);
+}
 
 } // namespace stk::graph
-
-#include "stk/graph/impl/edge.ipp"
-#endif // STK_GRAPH_EDGE_H

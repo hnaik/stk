@@ -20,11 +20,13 @@
 #define STK_GRAPH_VERTEX_H
 
 namespace stk::graph {
+template <typename Id>
 struct vertex_hasher;
 
+template <typename Id = std::string>
 struct vertex {
-    using id_type = std::string;
-    using set = std::unordered_set<vertex, vertex_hasher>;
+    using id_type = Id;
+    using set = std::unordered_set<vertex, vertex_hasher<id_type>>;
 
     // we don't need to store the entire node here because that will lead to
     // a lot of wasted space. We can always look up the neighbors of those
@@ -37,9 +39,22 @@ struct vertex {
     {
     }
 
-    vertex(const id_type& id_)
+    vertex(const std::string& id_)
         : id{id_}
     {
+    }
+
+    vertex(const vertex& v)
+        : id{v.id}
+        , neighbors{v.neighbors}
+    {
+    }
+
+    vertex& operator=(const vertex& v)
+    {
+        id = v.id;
+        neighbors = v.neighbors;
+        return *this;
     }
 
     bool is_neighbor(const id_type& id) const
@@ -47,27 +62,23 @@ struct vertex {
         return neighbors.find(id) != end(neighbors);
     }
 
+    std::string to_string() const { return std::to_string(id); }
+
+    size_t hash() const;
+
     id_type id;
     neighbor_set neighbors;
 
     static size_t hash(const vertex& v) { return std::hash<id_type>{}(v.id); }
 };
 
+template <typename Id>
 struct vertex_hasher {
-    size_t operator()(const vertex& v) const
-    {
-        return std::hash<std::string>{}(v.id);
-    }
+    size_t operator()(const vertex<Id>& v) const;
 };
 
-bool operator==(const vertex& v1, const vertex& v2) { return v1.id == v2.id; }
-
-std::ostream& operator<<(std::ostream& os, const vertex& v)
-{
-    os << v.id;
-    return os;
-}
-
 } // namespace stk::graph
+
+#include "stk/graph/impl/vertex.ipp"
 
 #endif // STK_GRAPH_VERTEX_H
