@@ -16,43 +16,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef STK_DS_GRAPH_GRAPH_H
-#define STK_DS_GRAPH_GRAPH_H
-
-#include <array>
-#include <type_traits>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
-
 namespace stk::ds::graph {
-template <typename Vertex, typename VertexSet = std::unordered_set<Vertex>>
-class graph {
-public:
-    using vertex_type = Vertex;
-    using set = VertexSet;
-
-    void add_vertex(const vertex_type& vertex, const set& neighbors);
-
-    const set& neighbors(const vertex_type& vertex) const
-    {
-        return g_.at(vertex);
+template <typename Vertex, typename VertexSet>
+void graph<Vertex, VertexSet>::add_vertex(const vertex_type& vertex,
+                                          const set& neighbors)
+{
+    for(const auto& neighbor : neighbors) {
+        if constexpr(std::is_same_v<std::unordered_set<vertex_type>, set>) {
+            g_[vertex].insert(neighbor);
+        } else {
+            g_[vertex].push_back(neighbor);
+        }
     }
-
-    bool has_neighbors(const vertex_type& vertex) const
-    {
-        return g_.find(vertex) != end(g_) && g_.at(vertex).size() > 0;
-    }
-
-public:
-    std::unordered_map<vertex_type, set> g_;
-};
-
-template <typename Vertex>
-using bst = graph<Vertex, std::vector<Vertex>>;
+}
 
 } // namespace stk::ds::graph
-
-#include "stk/ds/graph/impl/graph.ipp"
-
-#endif // STK_DS_GRAPH_GRAPH_H
