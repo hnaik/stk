@@ -1,8 +1,8 @@
 #include <ostream>
 
-namespace stk::opt {
+namespace stk::opt::regression::linear {
 template <typename Vector>
-lr_soln<typename Vector::value_type> fit(const Vector& x, const Vector& y)
+solution<typename Vector::value_type> fit(const Vector& x, const Vector& y)
 {
     using value_type = typename Vector::value_type;
 
@@ -18,7 +18,7 @@ lr_soln<typename Vector::value_type> fit(const Vector& x, const Vector& y)
     value_type xm = sum_x / n;
     value_type ym = sum_y / n;
 
-    lr_soln<value_type> soln;
+    solution<value_type> soln;
 
     soln.a1 = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x);
     soln.a0 = ym - soln.a1 * xm;
@@ -38,7 +38,7 @@ lr_soln<typename Vector::value_type> fit(const Vector& x, const Vector& y)
 }
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const lr_soln<T>& lr)
+std::ostream& operator<<(std::ostream& os, const solution<T>& lr)
 {
     std::setprecision(6);
     os << "[a0:" << lr.a0 << ",a1:" << lr.a1 << ",sd:" << lr.sd
@@ -46,4 +46,4 @@ std::ostream& operator<<(std::ostream& os, const lr_soln<T>& lr)
     return os;
 }
 
-} // namespace stk::opt
+} // namespace stk::opt::regression::linear
