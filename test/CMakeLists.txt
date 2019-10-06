@@ -43,3 +43,5 @@ add_stk_test(lu)
 add_stk_test(matrix)
 add_stk_test(stat)
 add_stk_test(vector)
+
+add_subdirectory(opt)

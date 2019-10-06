@@ -78,9 +78,11 @@ public:
 
     inline size_t dim() const { return size(); }
 
-    inline vector operator+(value_type s) { return v_ + s; }
+    inline vector operator+(value_type s) const { return v_ + s; }
 
-    inline vector operator-(value_type s) { return v_ - s; }
+    inline vector operator-(value_type s) const { return v_ - s; }
+
+    inline vector operator*(value_type s) const { return v_ - s; }
 
     inline value_type operator[](size_t index) { return v_[index]; }
 
@@ -124,7 +126,6 @@ private:
     bool transpose_ = false;
     internal_type v_;
 };
-
 } // namespace stk::ds
 
 #include "impl/vector.ipp"
