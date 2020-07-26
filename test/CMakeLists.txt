@@ -16,3 +16,4 @@ add_stk_test(stat)
 add_stk_test(vector)
 
 add_subdirectory(opt)
+add_subdirectory(stat)
