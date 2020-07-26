@@ -15,9 +15,16 @@ endfunction(add_example)
 
 add_subdirectory(examples)
 
-set(ENABLE_TESTS false CACHE BOOL "Enable unittests")
+#set(ENABLE_TESTS false CACHE BOOL "Enable unittests")
 
-if(ENABLE_TESTS)
-    enable_testing()
+#if(ENABLE_TESTS)
+#    enable_testing()
+#    add_subdirectory(test)
+#endif(ENABLE_TESTS)
+
+include(CTest)
+
+if(BUILD_TESTING)
     add_subdirectory(test)
-endif(ENABLE_TESTS)
+    enable_testing()
+endif(BUILD_TESTING)
