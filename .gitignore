@@ -4,3 +4,4 @@ CMakeLists.txt.user*
 .vs
 .cquery_cached_index
 out/
+CMakeSettings.json
