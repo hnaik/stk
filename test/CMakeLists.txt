@@ -5,7 +5,7 @@ function(add_stk_test name)
     add_test(NAME ${target} COMMAND ${target})
 endfunction(add_stk_test)
 
-#add_stk_test(la)
+add_stk_test(la)
 #add_stk_test(lu)
 add_stk_test(matrix)
 add_stk_test(stat)

@@ -31,36 +31,32 @@ protected:
 
 TEST_F(StatTest, Sum)
 {
-    // sum(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    //
     EXPECT_DOUBLE_EQ(45.0, stk::stat::sum(v_));
 }
 
-TEST_F(StatTest, Count)
-{
-    //    EXPECT_DOUBLE_EQ(9, stk::stat::count<vector_type>(v_));
-    //    EXPECT_DOUBLE_EQ(9, stk::stat::dim<vector_type>(v_));
-}
+TEST_F(StatTest, Count) {}
 
 TEST_F(StatTest, Mean)
 {
-    // mean(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    //
     EXPECT_DOUBLE_EQ(5.0, stk::stat::mean(v_));
 }
 
 TEST_F(StatTest, Variance)
 {
-    // var(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    //
     EXPECT_DOUBLE_EQ(6.666666666666667, stk::stat::var(v_));
 }
 
 TEST_F(StatTest, StdDev)
 {
-    // stddev(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    //
     EXPECT_DOUBLE_EQ(2.581988897471611, stk::stat::sd(v_));
 }
 
 TEST_F(StatTest, Median)
 {
-    // median(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    //
     EXPECT_DOUBLE_EQ(5.0, stk::stat::median(v_));
 }

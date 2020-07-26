@@ -26,24 +26,24 @@ template <typename T>
 using inner_value_type = typename std::decay<T>::type::value_type;
 
 // clang-format off
-template <typename T>
-concept bool Tensor = requires(T t){
-    { t.norm1() } -> inner_value_type<T>;
-    { t.norm2() } -> inner_value_type<T>;
-    { t.norm_inf() } -> inner_value_type<T>;
-    { t.abs() };
-    { t.operator=(t) };
+//template <typename T>
+//concept bool Tensor = requires(T t){
+//    { t.norm1() } -> inner_value_type<T>;
+//    { t.norm2() } -> inner_value_type<T>;
+//    { t.norm_inf() } -> inner_value_type<T>;
+//    { t.abs() };
+//    { t.operator=(t) };
 
-    // Disabled because return types are different for Vector and Matrix types
-    // { t.dot(t) } -> inner_value_type<T>;
-};
+//    // Disabled because return types are different for Vector and Matrix types
+//    // { t.dot(t) } -> inner_value_type<T>;
+//};
 
-template <typename T>
-concept bool Series = requires(T t){
-//    { std::begin(t) };
-//    { std::end(t) };
-    { t.sum() } -> inner_value_type<T>;
-};
+//template <typename T>
+//concept bool Series = requires(T t){
+////    { std::begin(t) };
+////    { std::end(t) };
+//    { t.sum() } -> inner_value_type<T>;
+//};
 
 // clang-format on
 

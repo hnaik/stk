@@ -19,8 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "stk/ds/matrix.h"
-#include "stk/ds/vector.h"
+#include <stk/ds/matrix.h>
+#include <stk/ds/vector.h>
 
 // class LaTest : public ::testing::Test {
 // protected:

@@ -25,49 +25,49 @@ namespace stk::la {
 template <typename T>
 using inner_value_type = typename std::decay_t<T>::value_type;
 
-template <Tensor T>
+template <typename T>
 inline inner_value_type<T> norm1(T&& t)
 {
     return t.norm1();
 }
 
-template <Tensor T>
+template <typename T>
 inline inner_value_type<T> norm2(T&& t)
 {
     return t.norm2();
 }
 
-template <Tensor T>
+template <typename T>
 inline inner_value_type<T> norm_inf(T&& t)
 {
     return t.norm_inf();
 }
 
-template <Tensor T>
+template <typename T>
 inline inner_value_type<T> dot(T&& u, T&& v)
 {
     return u.dot(v);
 }
 
-template <Tensor T>
+template <typename T>
 inline inner_value_type<T> dist1(T&& u, T&& v)
 {
     return (u - v).abs().norm1();
 }
 
-template <Tensor T>
+template <typename T>
 inline inner_value_type<T> dist2(T&& u, T&& v)
 {
     return (u - v).abs().norm2();
 }
 
-template <Tensor T>
+template <typename T>
 inline inner_value_type<T> dist_inf(T&& u, T&& v)
 {
     return (u - v).abs().norm_inf();
 }
 
-template <Tensor T>
+template <typename T>
 T saxpy(const T& x, const T& y, inner_value_type<T> a)
 {
     T s{y};
@@ -84,7 +84,7 @@ inline MatrixType mul(const MatrixType& a, const MatrixType& b)
 template <typename MatrixType, typename VectorType>
 void gaxpy(const MatrixType& a, const VectorType& x, VectorType& y)
 {
-    for(size_t i = 0; i < x.size(); ++i) {
+    for(std::size_t i = 0; i < x.size(); ++i) {
         y.saxpy(a.col(i), x[i]);
     }
 }
