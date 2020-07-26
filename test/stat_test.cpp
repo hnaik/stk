@@ -24,10 +24,12 @@
 
 class StatTest : public ::testing::Test {
 protected:
-    using vector_type = stk::ds::vector<>;
+    using vector_type = stk::ds::vector<double>;
 
     vector_type v_{1.0, 3.0, 2.0, 5.0, 9.0, 8.0, 4.0, 6.0, 7.0};
 };
+
+using namespace stk::stat;
 
 TEST_F(StatTest, Sum)
 {
@@ -59,4 +61,16 @@ TEST_F(StatTest, Median)
 {
     //
     EXPECT_DOUBLE_EQ(5.0, stk::stat::median(v_));
+}
+
+TEST_F(StatTest, Moments)
+{
+    const auto m = compute_moments(v_);
+
+    EXPECT_EQ(5.0, m.mean);
+    EXPECT_EQ(2.2222222222222223, m.mean_abs_deviation);
+    EXPECT_EQ(2.581988897471611, m.stddev);
+    EXPECT_EQ(6.666666666666667, m.variance);
+    EXPECT_EQ(0, m.skew);
+    EXPECT_EQ(0, m.kurtosis);
 }
