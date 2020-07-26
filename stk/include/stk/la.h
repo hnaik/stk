@@ -21,8 +21,6 @@
 
 #include <utility>
 
-#include "stk/concepts.h"
-
 namespace stk::la {
 template <typename T>
 using inner_value_type = typename std::decay_t<T>::value_type;

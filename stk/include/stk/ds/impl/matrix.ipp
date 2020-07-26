@@ -39,7 +39,7 @@ std::ostream& operator<<(std::ostream& os, const std::valarray<U>& v)
 template <typename U>
 std::ostream& operator<<(std::ostream& os, const matrix<U>& m)
 {
-    const size_t default_precision = os.precision();
+    const auto default_precision = os.precision();
     for(std::size_t i = 0; i < m.row_count_; ++i) {
         os << (i == 0 ? "[ " : " ");
         for(std::size_t j = 0; j < m.col_count_; ++j) {

@@ -22,70 +22,70 @@
 #include "stk/ds/matrix.h"
 #include "stk/ds/vector.h"
 
-class LaTest : public ::testing::Test {
-protected:
-    void SetUp()
-    {
-        U_.reshape(2, 3);
-        V_.reshape(2, 3);
-    }
+// class LaTest : public ::testing::Test {
+// protected:
+//    void SetUp()
+//    {
+//        U_.reshape(2, 3);
+//        V_.reshape(2, 3);
+//    }
 
-    stk::ds::vector<double> u_{1.0, 2.0, 3.0};
-    stk::ds::vector<double> v_{2.0, 4.0, 6.0};
+//    stk::ds::vector<double> u_{1.0, 2.0, 3.0};
+//    stk::ds::vector<double> v_{2.0, 4.0, 6.0};
 
-    stk::ds::matrix<> U_{1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-    stk::ds::matrix<> V_{2.0, 4.0, 6.0, 8.0, 10.0, 12.0};
-};
+//    stk::ds::matrix<> U_{1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+//    stk::ds::matrix<> V_{2.0, 4.0, 6.0, 8.0, 10.0, 12.0};
+//};
 
-TEST_F(LaTest, norm1)
-{
-    EXPECT_DOUBLE_EQ(6.0, stk::la::norm1(u_));
-    EXPECT_DOUBLE_EQ(12.0, stk::la::norm1(v_));
+// TEST_F(LaTest, norm1)
+//{
+//    EXPECT_DOUBLE_EQ(6.0, stk::la::norm1(u_));
+//    EXPECT_DOUBLE_EQ(12.0, stk::la::norm1(v_));
 
-    //    EXPECT_DOUBLE_EQ(6.0, stk::la::norm1(U_));
-}
+//    //    EXPECT_DOUBLE_EQ(6.0, stk::la::norm1(U_));
+//}
 
-TEST_F(LaTest, norm2)
-{
-    EXPECT_DOUBLE_EQ(3.7416573867739413, stk::la::norm2(u_));
-    EXPECT_DOUBLE_EQ(7.483314773547883, stk::la::norm2(v_));
-}
+// TEST_F(LaTest, norm2)
+//{
+//    EXPECT_DOUBLE_EQ(3.7416573867739413, stk::la::norm2(u_));
+//    EXPECT_DOUBLE_EQ(7.483314773547883, stk::la::norm2(v_));
+//}
 
-TEST_F(LaTest, normInf)
-{
-    EXPECT_DOUBLE_EQ(3.0, stk::la::norm_inf(u_));
-    EXPECT_DOUBLE_EQ(6.0, stk::la::norm_inf(v_));
-}
+// TEST_F(LaTest, normInf)
+//{
+//    EXPECT_DOUBLE_EQ(3.0, stk::la::norm_inf(u_));
+//    EXPECT_DOUBLE_EQ(6.0, stk::la::norm_inf(v_));
+//}
 
-TEST_F(LaTest, dot)
-{
-    //
-    EXPECT_DOUBLE_EQ(28, stk::la::dot(u_, v_));
-}
+// TEST_F(LaTest, dot)
+//{
+//    //
+//    EXPECT_DOUBLE_EQ(28, stk::la::dot(u_, v_));
+//}
 
-TEST_F(LaTest, dist1)
-{
-    //
-    EXPECT_DOUBLE_EQ(6.0, stk::la::dist1(u_, v_));
-}
+// TEST_F(LaTest, dist1)
+//{
+//    //
+//    EXPECT_DOUBLE_EQ(6.0, stk::la::dist1(u_, v_));
+//}
 
-TEST_F(LaTest, dist_inf)
-{
-    EXPECT_DOUBLE_EQ(3.0, stk::la::dist_inf(u_, v_));
-}
+// TEST_F(LaTest, dist_inf)
+//{
+//    EXPECT_DOUBLE_EQ(3.0, stk::la::dist_inf(u_, v_));
+//}
 
-TEST_F(LaTest, saxpy)
-{
-    const auto y = stk::la::saxpy(u_, v_, 10);
-    EXPECT_DOUBLE_EQ(12.0, y[0]);
-    EXPECT_DOUBLE_EQ(24.0, y[1]);
-    EXPECT_DOUBLE_EQ(36.0, y[2]);
-}
+// TEST_F(LaTest, saxpy)
+//{
+//    const auto y = stk::la::saxpy(u_, v_, 10);
+//    EXPECT_DOUBLE_EQ(12.0, y[0]);
+//    EXPECT_DOUBLE_EQ(24.0, y[1]);
+//    EXPECT_DOUBLE_EQ(36.0, y[2]);
+//}
 
-TEST_F(LaTest, mul)
-{
-    //
-    auto res = stk::la::mul(U_, u_);
-    EXPECT_DOUBLE_EQ(14.0, res[0]);
-    EXPECT_DOUBLE_EQ(32.0, res[1]);
-}
+// TEST_F(LaTest, mul)
+//{
+//    //
+//    auto res = stk::la::mul(U_, u_);
+//    EXPECT_DOUBLE_EQ(14.0, res[0]);
+//    EXPECT_DOUBLE_EQ(32.0, res[1]);
+//}
