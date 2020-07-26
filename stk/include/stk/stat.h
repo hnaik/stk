@@ -25,46 +25,46 @@
 #include <algorithm>
 #include <vector>
 
-#include "concepts.h"
+#include <stk/concepts.h>
 
 namespace stk::stat {
-template <Series T>
+template <typename T>
 inner_value_type<T> sum(T&& series)
 {
     return series.sum();
 }
 
-template <Series T>
+template <typename T>
 size_t count(T&& series)
 {
     return series.size();
 }
 
-template <Series T>
+template <typename T>
 size_t dim(T&& series)
 {
     return count(series);
 }
 
-template <Series T>
+template <typename T>
 inner_value_type<T> mean(T&& series)
 {
     return sum(series) / static_cast<inner_value_type<T>>(count(series));
 }
 
-template <Series T>
+template <typename T>
 inner_value_type<T> var(T&& s)
 {
     return sum(pow(s - mean(s), 2.0)) / count(s);
 }
 
-template <Series T>
+template <typename T>
 inner_value_type<T> sd(T&& series)
 {
     return std::sqrt(var(series));
 }
 
-template <Series T>
+template <typename T>
 inner_value_type<T> median(T&& s)
 {
     return s.median();

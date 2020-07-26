@@ -89,13 +89,13 @@ typename lu<T>::vector_type lu<T>::solve(const typename lu<T>::vector_type& b)
     value_type sum{0.0};
 
     int ii = 0;
-    for(int i = 0; i < static_cast<int>(n_); ++i) {
+    for(size_t i = 0; i < n_; ++i) {
         size_t ip = index_[i];
         sum = x[ip];
         x[ip] = x[i];
 
         if(ii != 0) {
-            for(int j = ii - 1; j < i; j++) {
+            for(int j = static_cast<int>(ii - 1); j < i; j++) {
                 sum -= lu_(i, j) * x[j];
             }
         } else if(sum != 0.0) {
