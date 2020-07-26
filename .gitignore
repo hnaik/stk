@@ -3,3 +3,4 @@ CMakeLists.txt.user*
 .vscode
 .vs
 .cquery_cached_index
+out/
