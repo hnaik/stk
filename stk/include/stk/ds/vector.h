@@ -32,27 +32,27 @@ public:
 
     template <typename... Args>
     inline vector(Args&&... args)
-        : v_{args...}
+      : v_{args...}
     {
     }
 
     inline vector(const internal_type& array)
-        : v_{std::forward<internal_type>(array)}
+      : v_{std::forward<internal_type>(array)}
     {
     }
 
     inline vector(size_t n)
-        : v_(n)
+      : v_(n)
     {
     }
 
     inline vector(const vector& o)
-        : v_{o.v_}
+      : v_{o.v_}
     {
     }
 
     inline vector(vector&& o)
-        : v_{std::move(o.v_)}
+      : v_{std::move(o.v_)}
     {
     }
 
@@ -83,6 +83,12 @@ public:
     inline vector operator-(value_type s) const { return v_ - s; }
 
     inline vector operator*(value_type s) const { return v_ - s; }
+
+    inline vector operator/(value_type s) const
+    {
+        if(s == 0) throw std::domain_error{"0 denominator"};
+        return v_ / s;
+    }
 
     inline value_type operator[](size_t index) { return v_[index]; }
 
