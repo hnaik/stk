@@ -1,7 +1,11 @@
 function(add_stk_test name)
-    set(target ${name}_test)
+    set(target test_${name})
     add_executable(${target} ${target}.cpp)
-    target_link_libraries(${name}_test stk gtest_main gtest pthread)
+    target_link_libraries(${target}
+        stk
+        gtest_main
+        gtest
+        pthread)
     add_test(NAME ${target} COMMAND ${target})
 endfunction(add_stk_test)
 
