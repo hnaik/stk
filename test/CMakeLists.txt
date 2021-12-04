@@ -1,18 +1,17 @@
-function(add_stk_test name)
-    set(target test_${name})
-    add_executable(${target} ${target}.cpp)
-    target_link_libraries(${target}
-        stk
-        gtest_main
-        gtest
-        pthread)
-    add_test(NAME ${target} COMMAND ${target})
-endfunction(add_stk_test)
+enable_testing()
 
-add_stk_test(la)
-#add_stk_test(lu)
-add_stk_test(matrix)
-add_stk_test(stat)
-add_stk_test(vector)
+include(GoogleTest)
+
+function(stk_test name)
+    add_executable(test_${name} test_${name}.cpp)
+    target_link_libraries(test_${name} stk gtest_main)
+    gtest_discover_tests(test_${name})
+endfunction(stk_test)
+
+stk_test(la)
+# stk_test(lu)
+stk_test(matrix)
+stk_test(stat)
+stk_test(vector)
 
 add_subdirectory(opt)

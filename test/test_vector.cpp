@@ -16,9 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "stk/ds/vector.h"
-
 #include <gtest/gtest.h>
+
+#include "stk/ds/vector.h"
 
 class VectorTest : public ::testing::Test {
 protected:
