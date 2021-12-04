@@ -1,4 +1,5 @@
 *~
+build
 CMakeLists.txt.user*
-.vscode
 .cquery_cached_index
+.vscode
